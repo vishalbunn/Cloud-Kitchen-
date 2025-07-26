@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import db from './db.json';
+import { Button } from './components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
+import { Input } from './components/ui/input';
+import { Label } from './components/ui/label';
 
 const Kitchen = () => {
   const [menu, setMenu] = useState(db.menu);
@@ -22,31 +26,59 @@ const Kitchen = () => {
   };
 
   return (
-    <div>
-      <h1>Kitchen</h1>
-      <h2>Menu</h2>
-      <ul>
-        {menu.map(item => (
-          <li key={item.id}>
-            {item.name} - ${item.price}
-            <button onClick={() => handleDeleteItem(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
-      <h2>Add Item</h2>
-      <input
-        type="text"
-        placeholder="Name"
-        value={newItem.name}
-        onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
-      />
-      <input
-        type="number"
-        placeholder="Price"
-        value={newItem.price}
-        onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
-      />
-      <button onClick={handleAddItem}>Add</button>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Kitchen</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Menu</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul>
+                {menu.map(item => (
+                  <li key={item.id} className="flex justify-between items-center mb-2">
+                    <span>{item.name} - ${item.price}</span>
+                    <Button variant="destructive" onClick={() => handleDeleteItem(item.id)}>Delete</Button>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        </div>
+        <div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Add Item</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="name">Name</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Name"
+                    value={newItem.name}
+                    onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="price">Price</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    placeholder="Price"
+                    value={newItem.price}
+                    onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
+                  />
+                </div>
+                <Button onClick={handleAddItem}>Add</Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };
