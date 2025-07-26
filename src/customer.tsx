@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import db from './db.json';
+import { Button } from './components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './components/ui/card';
 
 const Customer = () => {
   const [menu, setMenu] = useState(db.menu);
@@ -34,17 +36,21 @@ const Customer = () => {
   };
 
   return (
-    <div>
-      <h1>Customer</h1>
-      <h2>Menu</h2>
-      <ul>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">Customer</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {menu.map(item => (
-          <li key={item.id}>
-            {item.name} - ${item.price}
-            <button onClick={() => handlePayment(item.price)}>Pay with Razorpay</button>
-          </li>
+          <Card key={item.id}>
+            <CardHeader>
+              <CardTitle>{item.name}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="mb-4">${item.price}</p>
+              <Button onClick={() => handlePayment(item.price)}>Pay with Razorpay</Button>
+            </CardContent>
+          </Card>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

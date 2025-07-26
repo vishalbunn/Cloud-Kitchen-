@@ -4,37 +4,53 @@ import {
   createBrowserRouter,
   RouterProvider,
   Link,
+  Outlet,
 } from "react-router-dom";
+import Home from './Home';
 import Kitchen from './kitchen';
 import Customer from './customer';
+import './globals.css';
+import { Button } from './components/ui/button';
+
+const AppLayout = () => {
+  return (
+    <>
+      <nav className="p-4 bg-gray-800 text-white">
+        <div className="container mx-auto flex justify-between">
+          <Link to="/" className="font-bold text-xl">Orderly Meals</Link>
+          <div>
+            <Button asChild variant="link">
+              <Link to="/kitchen">Kitchen</Link>
+            </Button>
+            <Button asChild variant="link">
+              <Link to="/customer">Customer</Link>
+            </Button>
+          </div>
+        </div>
+      </nav>
+      <Outlet />
+    </>
+  )
+}
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <div>
-        <h1>Welcome to Orderly Meals</h1>
-        <nav>
-          <ul>
-            <li>
-              <Link to="kitchen">Kitchen</Link>
-            </li>
-            <li>
-              <Link to="customer">Customer</Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    ),
-  },
-  {
-    path: "kitchen",
-    element: <Kitchen />,
-  },
-  {
-    path: "customer",
-    element: <Customer />,
-  },
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "kitchen",
+        element: <Kitchen />,
+      },
+      {
+        path: "customer",
+        element: <Customer />,
+      },
+    ]
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
